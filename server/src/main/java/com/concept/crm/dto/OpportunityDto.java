@@ -1,13 +1,17 @@
 package com.concept.crm.dto;
 
 import com.concept.crm.enums.OpportunityStage;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class OpportunityDto {
     private Long id;
     private String name;
@@ -23,7 +27,7 @@ public class OpportunityDto {
     private Long assignedToId;
     private String assignedToName;
     private Long leadId;
-    private boolean active;
+    private Boolean active;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

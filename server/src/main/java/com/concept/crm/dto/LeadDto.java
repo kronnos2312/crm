@@ -1,13 +1,17 @@
 package com.concept.crm.dto;
 
 import com.concept.crm.enums.LeadStatus;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class LeadDto {
     private Long id;
     private String title;
@@ -21,7 +25,7 @@ public class LeadDto {
     private String contactName;
     private Long assignedToId;
     private String assignedToName;
-    private boolean active;
+    private Boolean active;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

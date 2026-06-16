@@ -1,23 +1,6 @@
 version: '3.8'
 
 services:
-  postgres:
-    image: postgres:16-alpine
-    container_name: crm_postgres
-    environment:
-      POSTGRES_DB: crm_db
-      POSTGRES_USER: crm_user
-      POSTGRES_PASSWORD: crm_pass
-    ports:
-      - "5432:5432"
-    volumes:
-      - crm_postgres_data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U crm_user -d crm_db"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-
   server:
     build:
       context: ./server
@@ -26,14 +9,10 @@ services:
     ports:
       - "8080:8080"
     environment:
-      DB_HOST: postgres
-      DB_PORT: 5432
-      DB_NAME: crm_db
-      DB_USER: crm_user
-      DB_PASSWORD: crm_pass
-    depends_on:
-      postgres:
-        condition: service_healthy
+      DB_HOST: postgres_container
+    networks:
+      - mynetwork
+      - crm_internal
 
   web:
     build:
@@ -44,8 +23,14 @@ services:
       - "3000:3000"
     environment:
       NEXT_PUBLIC_API_URL: http://localhost:8080
+    networks:
+      - crm_internal
     depends_on:
       - server
 
-volumes:
-  crm_postgres_data:
+networks:
+  mynetwork:
+    external: true
+    name: docker_mynetwork
+  crm_internal:
+    driver: bridge
